@@ -1,58 +1,71 @@
 <?php
-// We need to figure out how we are databasing images, could also just say fuck it and ditch php, make the action client side with JS, though thatd be a pain in the ass, but it might be better in the long run
 
+    $currentDirectory = getcwd();
+    $uploadDirectory = "/photos/original/";
+    $errors = []; // Store errors here
+    $fileExtensionsAllowed = ['jpeg','jpg','png']; // These will be the only file extensions allowed 
+    $fileName = $_FILES['the_file']['name'];
+    $ext = pathinfo($fileName, PATHINFO_EXTENSION);
+    $fileSize = $_FILES['the_file']['size'];
+    $fileTmpName  = $_FILES['the_file']['tmp_name'];
+    $fileType = $_FILES['the_file']['type'];
+    $fileExtension = strtolower(end(explode('.',$fileName)));
+    $namelength = 9;
+    $photonamegen = substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'),1,$namelength);
+    $uploadPath = $currentDirectory . $uploadDirectory . $photonamegen . "." . $ext; 
+    
 
-// PSUEDO
+    if (isset($_POST['submit'])) {
 
-// accept user supplied image using post or get, not sure which yet
+      if (! in_array($fileExtension,$fileExtensionsAllowed)) {
+        $errors[] = "This file extension is not allowed. Please upload a JPEG or PNG file";
+      }
 
-//Accept file from page using POST/GET.
+      if ($fileSize > 4000000) {
+        $errors[] = "File exceeds maximum size (4MB)";
+      }
 
-//Do standard verification on the uploaded files (File size, resolution, file type) 
+      if (empty($errors)) {
+        $didUpload = move_uploaded_file($fileTmpName, $uploadPath);
+        $sourceS = "photos/original/$photonamegen.$ext"; // SOURCE IMAGE
+$sourceW = "photos/flag.png"; // WATERMARK IMAGE
+$target = "photos/watermarked/$photonamegen"."watermarked.jpg"; // WATERMARKED IMAGE
+$quality = 100; // WATERMARKED IMAGE QUALITY (0 to 100)
+$posX = 0; // PLACE WATERMARK AT LEFT CORNER
+$posY = 0; // PLACE WATERMARK AT TOP CORNER
 
-// Store file to server using a random name (Ex. I9EKQ4.png)
-
-// Manipulate image using imagecopymerge function to overlay a ukrainian flag into a corner of the image
-
-// Store manipualted image to server
-
-// Output image on page
-
-// Destroy both images after set period of time (Probably wont be in this code, but rather in a cron job that can use a database of a list of recently uploaded images.)
-// This problem could be avoided by just destroying the image after the user exits the page, like maybe store it in a cache with like mongo or something and just clear it whenever the user exits the page, though it might be difficult to deal with users wanting to return to the page
-
-
-// Some ideas: 
-// https://github.com/ajaxray/php-watermark
-// https://phpimageworkshop.com/tutorial/1/adding-watermark.html
-// https://phppot.com/php/php-watermark/
-
-// Here is an example i found on the php site; it is made for applying watermarks
-
-
-
-// Load the stamp and the photo to apply the watermark to
-$stamp = imagecreatefrompng('stamp.png');
-$im = imagecreatefromjpeg('photo.jpeg');
-
-// Set the margins for the stamp and get the height/width of the stamp image
-$marge_right = 10;
-$marge_bottom = 10;
-$sx = imagesx($stamp);
-$sy = imagesy($stamp);
-
-// Copy the stamp image onto our photo using the margin offsets and the photo 
-// width to calculate positioning of the stamp. 
-imagecopy($im, $stamp, imagesx($im) - $sx - $marge_right, imagesy($im) - $sy - $marge_bottom, 0, 0, imagesx($stamp), imagesy($stamp));
-
-// Output and free memory
-header('Content-type: image/png');
-imagepng($im);
-imagedestroy($im);
+if ($ext = "png") {
+   $imgS = imagecreatefrompng($sourceS);
+$imgW = imagecreatefrompng($sourceW); 
+}
+elseif ($ext = "jpeg") {
+   $imgS = imagecreatefromjpeg($sourceS);
+$imgW = imagecreatefrompng($sourceW); 
+}
 
 
 
+imagecopy(
+  $imgS, $imgW, // COPY WATERMARK ONTO SOURCE IMAGE
+  $posX, $posY, // PLACE WATERMARK AT TOP LEFT CORNER
+  0, 0, imagesx($imgW), imagesY($imgW) // COPY FULL WATERMARK IMAGE WITHOUT CLIPPING
+);
 
+// (D) OUTPUT
+imagejpeg($imgS, $target, $quality);
 
+        if ($didUpload) {
+          echo "The file " . basename($fileName) . " has been uploaded";
+          echo "<img src=https://ukraineify.me/photos/watermarked/$photonamegen"."watermarked.jpg>";
+        } else {
+          echo "An error occurred. Please contact the administrator.";
+        }
+      } else {
+        foreach ($errors as $error) {
+          echo $error . "These are the errors" . "\n";
+        }
+      }
 
+    }
+    
 ?>
