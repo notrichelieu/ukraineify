@@ -1,4 +1,33 @@
-<?php
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="A simple website to show your support for Ukraine">
+    <meta name="tags" content="Ukraine, Slava Ukraini, Russia, Support Ukraine, Ukraineify">
+    <title>Ukraineify.me</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+        @import url(style.css);
+        .finalimage {
+            max-height: 400px;
+            min-height: 200px;
+            max-width: 400px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            border-radius: 3px;
+        }
+    </style>
+  
+</head>
+    <body>
+        <div class="header">
+            <h1><span style="color: #0057b7;">Ukraineify</span><span style="color: #ffd700;">.me</span></h1>
+            <p class="description">Millions across the world have expressed their support for Ukraine's fight against the Russian invasion. Use this tool to join the thousands of others who have updated their profile pictures to show their support for Ukraine.</p>
+             
+
+                  <?php
 
     $currentDirectory = getcwd();
     $uploadDirectory = "/photos/original/";
@@ -45,8 +74,8 @@ $imgwidth = imagesx($imgS);
 $imgheight = imagesy($imgS);
 
 
-$width = .3 * $imgwidth;
-$height = .3 * $imgheight;
+$width = .35 * $imgwidth;
+$height = .35 * $imgheight;
 
 // Get new dimensions
 list($width_orig, $height_orig) = getimagesize($sourceW);
@@ -71,8 +100,8 @@ $imgwidth = imagesx($imgS);
 $imgheight = imagesy($imgS);
 
 
-$width = .2 * $imgwidth;
-$height = .2 * $imgheight;
+$width = .35 * $imgwidth;
+$height = .35 * $imgheight;
 
 // Get new dimensions
 list($width_orig, $height_orig) = getimagesize($sourceW);
@@ -96,14 +125,7 @@ imagecopyresampled($imgS, $imgW, $posX, $posY, 0, 0, $width, $height, imagesx($i
 imagejpeg($imgS, $target, $quality);
 
         if ($imgW) {
-          echo "The file " . basename($fileName) . " has been uploaded";
-          echo "<img height='50%' src=https://ukraineify.me/photos/watermarked/$photonamegen"."watermarked.jpg>";
-          echo $imgwidth;
-          echo $imgheight;
-          echo $width;
-          echo $height;
-          echo $width_orig;
-          echo $height_orig;
+          echo "<img class='finalimage' src=https://ukraineify.me/photos/watermarked/$photonamegen"."watermarked.jpg>";
         } else {
           echo "An error occurred. Please contact the administrator.";
         }
@@ -116,3 +138,9 @@ imagejpeg($imgS, $target, $quality);
     }
     
 ?>
+                  
+                  
+        </div>
+
+    </body>
+</html>
