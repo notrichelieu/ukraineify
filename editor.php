@@ -9,7 +9,8 @@
     $fileSize = $_FILES['the_file']['size'];
     $fileTmpName  = $_FILES['the_file']['tmp_name'];
     $fileType = $_FILES['the_file']['type'];
-    $fileExtension = strtolower(end(explode('.',$fileName)));
+    $file_name_array = explode('.',$fileName);
+    $fileExtension=strtolower(end($file_name_array));
     $namelength = 9;
     $photonamegen = substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'),1,$namelength);
     $uploadPath = $currentDirectory . $uploadDirectory . $photonamegen . "." . $ext; 
@@ -34,29 +35,75 @@ $quality = 100; // WATERMARKED IMAGE QUALITY (0 to 100)
 $posX = 0; // PLACE WATERMARK AT LEFT CORNER
 $posY = 0; // PLACE WATERMARK AT TOP CORNER
 
-if ($ext = "png") {
+
+
+if ($ext == "png") {
    $imgS = imagecreatefrompng($sourceS);
-$imgW = imagecreatefrompng($sourceW); 
+$imgW = imagecreatefrompng($sourceW);
+
+$imgwidth = imagesx($imgS);
+$imgheight = imagesy($imgS);
+
+
+$width = .2 * $imgwidth;
+$height = .2 * $imgheight;
+
+// Get new dimensions
+list($width_orig, $height_orig) = getimagesize($sourceW);
+
+$ratio_orig = $width_orig/$height_orig;
+
+if ($width/$height > $ratio_orig) {
+   $width = $height*$ratio_orig;
+} else {
+   $height = $width/$ratio_orig;
 }
-elseif ($ext = "jpeg") {
+
+
+
+
+}
+elseif ($ext == "jpeg" || $ext == "jpg") {
    $imgS = imagecreatefromjpeg($sourceS);
 $imgW = imagecreatefrompng($sourceW); 
+
+$imgwidth = imagesx($imgS);
+$imgheight = imagesy($imgS);
+
+
+$width = .2 * $imgwidth;
+$height = .2 * $imgheight;
+
+// Get new dimensions
+list($width_orig, $height_orig) = getimagesize($sourceW);
+
+$ratio_orig = $width_orig/$height_orig;
+
+if ($width/$height > $ratio_orig) {
+   $width = $height*$ratio_orig;
+} else {
+   $height = $width/$ratio_orig;
+}
+
 }
 
 
 
-imagecopy(
-  $imgS, $imgW, // COPY WATERMARK ONTO SOURCE IMAGE
-  $posX, $posY, // PLACE WATERMARK AT TOP LEFT CORNER
-  0, 0, imagesx($imgW), imagesY($imgW) // COPY FULL WATERMARK IMAGE WITHOUT CLIPPING
-);
+
+imagecopyresampled($imgS, $imgW, $posX, $posY, 0, 0, $width, $height, imagesx($imgW), imagesy($imgW));
 
 // (D) OUTPUT
 imagejpeg($imgS, $target, $quality);
 
-        if ($didUpload) {
+        if ($imgW) {
           echo "The file " . basename($fileName) . " has been uploaded";
-          echo "<img src=https://ukraineify.me/photos/watermarked/$photonamegen"."watermarked.jpg>";
+          echo "<img height='50%' src=https://ukraineify.me/photos/watermarked/$photonamegen"."watermarked.jpg>";
+          echo $imgwidth;
+          echo $imgheight;
+          echo $width;
+          echo $height;
+          echo $width_orig;
+          echo $height_orig;
         } else {
           echo "An error occurred. Please contact the administrator.";
         }
