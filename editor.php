@@ -26,7 +26,6 @@
             <h1><span style="color: #0057b7;">Ukraineify</span><span style="color: #ffd700;">.me</span></h1>
             <p class="description">Millions across the world have expressed their support for Ukraine's fight against the Russian invasion. Use this tool to join the thousands of others who have updated their profile pictures to show their support for Ukraine.</p>
              
-
 <?php
 
     $currentDirectory = getcwd();
@@ -144,7 +143,7 @@ imagejpeg($imgS, $target, $quality);
         </div>
 
         <div>
-          <form method="get" action="imagejpeg">
+          <form method="get" action="image.jpeg">
             <button type="submit">Download</button>
           </form>
         </div>

@@ -11,6 +11,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
         @import url(style.css);
+        /* include inline styles possibly, rather than referencing stylesheet */
     </style>
   
 </head>
@@ -21,11 +22,13 @@
             
             <img src="demo.png" class="demoimg">  
                 
+            <!-- should be possible to make the entire user image acceptance -> image validation/modification -> image output process in inline JS, in order to bring this down to a literally one page website -->
                 <form action="editor.php" method="post" enctype="multipart/form-data">
                     Upload a File:
                     <input type="file" name="the_file" id="fileToUpload">
                     <input type="submit" name="submit" value="Start Upload">
                 </form>
+
         </div>
     </body>
 </html>
