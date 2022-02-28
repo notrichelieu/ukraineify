@@ -27,21 +27,34 @@
             <p class="description">Millions across the world have expressed their support for Ukraine's fight against the Russian invasion. Use this tool to join the thousands of others who have updated their profile pictures to show their support for Ukraine.</p>
              
 
-                  <?php
+<?php
 
     $currentDirectory = getcwd();
+    
     $uploadDirectory = "/photos/original/";
+    
     $errors = []; // Store errors here
+    
     $fileExtensionsAllowed = ['jpeg','jpg','png']; // These will be the only file extensions allowed 
+    
     $fileName = $_FILES['the_file']['name'];
+    
     $ext = pathinfo($fileName, PATHINFO_EXTENSION);
+    
     $fileSize = $_FILES['the_file']['size'];
+    
     $fileTmpName  = $_FILES['the_file']['tmp_name'];
+    
     $fileType = $_FILES['the_file']['type'];
+    
     $file_name_array = explode('.',$fileName);
+    
     $fileExtension=strtolower(end($file_name_array));
+    
     $namelength = 9;
+    
     $photonamegen = substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'),1,$namelength);
+    
     $uploadPath = $currentDirectory . $uploadDirectory . $photonamegen . "." . $ext; 
     
 
@@ -64,15 +77,12 @@ $quality = 100; // WATERMARKED IMAGE QUALITY (0 to 100)
 $posX = 0; // PLACE WATERMARK AT LEFT CORNER
 $posY = 0; // PLACE WATERMARK AT TOP CORNER
 
-
-
 if ($ext == "png") {
    $imgS = imagecreatefrompng($sourceS);
 $imgW = imagecreatefrompng($sourceW);
 
 $imgwidth = imagesx($imgS);
 $imgheight = imagesy($imgS);
-
 
 $width = .35 * $imgwidth;
 $height = .35 * $imgheight;
@@ -87,9 +97,6 @@ if ($width/$height > $ratio_orig) {
 } else {
    $height = $width/$ratio_orig;
 }
-
-
-
 
 }
 elseif ($ext == "jpeg" || $ext == "jpg") {
@@ -99,7 +106,6 @@ $imgW = imagecreatefrompng($sourceW);
 $imgwidth = imagesx($imgS);
 $imgheight = imagesy($imgS);
 
-
 $width = .35 * $imgwidth;
 $height = .35 * $imgheight;
 
@@ -115,9 +121,6 @@ if ($width/$height > $ratio_orig) {
 }
 
 }
-
-
-
 
 imagecopyresampled($imgS, $imgW, $posX, $posY, 0, 0, $width, $height, imagesx($imgW), imagesy($imgW));
 
@@ -137,10 +140,13 @@ imagejpeg($imgS, $target, $quality);
 
     }
     
-?>
-                  
-                  
+?>        
         </div>
 
+        <div>
+          <form method="get" action="imagejpeg">
+            <button type="submit">Download</button>
+          </form>
+        </div>
     </body>
 </html>
