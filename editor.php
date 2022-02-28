@@ -45,8 +45,8 @@ $imgwidth = imagesx($imgS);
 $imgheight = imagesy($imgS);
 
 
-$width = .2 * $imgwidth;
-$height = .2 * $imgheight;
+$width = .3 * $imgwidth;
+$height = .3 * $imgheight;
 
 // Get new dimensions
 list($width_orig, $height_orig) = getimagesize($sourceW);
