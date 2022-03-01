@@ -19,16 +19,19 @@
         <div class="header">
             <h1><span style="color: #0057b7;">Ukraineify</span><span style="color: #ffd700;">.me</span> <!-- flag got messed up, this should be fixed in a bit --> </h1>
             <p class="description">Millions across the world have expressed their support for Ukraine's fight against the Russian invasion. Use this tool to join the thousands of others who have updated their profile pictures to show their support for Ukraine.</p>
-            
+        </div>
+        
+        <div>
             <img src="demo.png" class="demoimg">  
-                
-            <!-- should be possible to make the entire user image acceptance -> image validation/modification -> image output process in inline JS, in order to bring this down to a literally one page website -->
-                <form action="editor.php" method="post" enctype="multipart/form-data">
-                    Upload a File:
-                    <input type="file" name="the_file" id="fileToUpload">
-                    <input type="submit" name="submit" value="Start Upload">
-                </form>
+        </div>
 
+            <!-- should be possible to make the entire user image acceptance -> image validation/modification -> image output process in inline JS, in order to bring this down to a literally one page website -->
+        <div class="form">
+            <form action="editor.php" method="post" enctype="multipart/form-data">
+                Upload a File:
+                <input type="file" name="the_file" id="fileToUpload">
+                <input type="submit" name="submit" value="Start Upload">
+            </form>
         </div>
     </body>
 </html>
