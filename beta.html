@@ -1,1 +1,79 @@
-// This file will hold the beta code for the pure JS solution. All code, including HTML, JS, and CSS will be included in this single file.
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Ukraineify</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+            body {
+                font-family: 'Roboto', sans-serif;
+                text-align: center;
+                display: flexbox;
+                align-items: center;
+                justify-content: center;
+                flex-direction: row;
+            }
+
+            body > div {
+                align-content: center;
+            }
+
+            .header {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+            }
+
+            h1 {
+                font-weight: 700;
+                font-size: 62px;
+                margin-bottom: 16px;
+            }
+
+            .description {
+                font-weight: 400;
+                width: 50%;
+                font-size: 20px;
+                margin-top: 0px;
+            }
+
+            .demoimg {
+                height: 30%;
+                width: 30%;
+                box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+                border-radius: 4px;
+                margin-top: 20px;
+                margin-bottom: 15px;
+            }
+
+            .form {
+                display: flexbox;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <div class="header">
+            <h1><span style="color: #0057b7;">Ukraineify</span><span style="color: #ffd700;">.me</span> <!-- flag got messed up, this should be fixed in a bit --> </h1>
+            <p class="description">Millions across the world have expressed their support for Ukraine's fight against the Russian invasion. Use this tool to join the thousands of others who have updated their profile pictures to show their support for Ukraine.</p>
+        </div>
+        
+        <div>
+            <img src="demo.png" class="demoimg">  
+        </div>
+
+        <div class="form">
+            <form action="editor.php" method="post" enctype="multipart/form-data">
+                Upload a File:
+                <input type="file" name="the_file" id="fileToUpload">
+                <input type="submit" name="submit" value="Start Upload">
+            </form>
+        </div>
+    </body>
+</html>
